@@ -6,10 +6,12 @@ from routes.ai_routes import ai_bp
 from routes.auth_routes import auth_bp
 from routes.products_routes import products_bp
 from routes.web_routes import web_bp
+from flask_cors import CORS
 
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 
 # Connect to MongoDB before running app
 db_name = os.getenv("MONGO_DB_NAME", "product_manager")
@@ -28,3 +30,4 @@ if __name__ == "__main__":
     debug_mode = os.getenv("FLASK_DEBUG", "True") == "True"
     print(f"Starting Flask app on port {port}")
     app.run(host="0.0.0.0", port=port, debug=debug_mode)
+
