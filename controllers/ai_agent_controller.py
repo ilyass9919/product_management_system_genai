@@ -5,7 +5,7 @@ from models.products import Product
 
 load_dotenv()
 
-# === AI MODEL CONFIGURATION ===
+# AI MODEL CONFIGURATION
 API_KEY = os.getenv("OPENAI_API_KEY")
 BASE_URL = os.getenv("BASE_URL", "https://models.github.ai/inference")
 MODEL = os.getenv("MODEL", "openai/gpt-4.1")
@@ -15,7 +15,7 @@ if not API_KEY:
 
 client = OpenAI(base_url=BASE_URL, api_key=API_KEY)
 
-# === TOOL METHODS ===
+# TOOL METHODS
 def get_all_products():
     """Return a list of all available products with basic info."""
     products = Product.objects()
@@ -73,7 +73,7 @@ def analyze_budget(budget: float):
         return f"Your budget matches the average price (${avg:.2f})."
 
 
-# === MAIN AI AGENT CONTROLLER ===
+# MAIN AI AGENT CONTROLLER
 def ai_agent_chat(prompt: str) -> str:
     tools = [
         {

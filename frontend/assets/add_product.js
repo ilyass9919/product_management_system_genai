@@ -3,10 +3,15 @@ const BASE = window.BASE_URL || 'http://localhost:8080'
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('addProductForm')
   if (!form) return
+  
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
+    
     const token = localStorage.getItem('token')
-    if (!token) return window.location.href = 'login.html'
+    if (!token) {
+        window.location.href = '/login'
+        return
+    }
 
     const payload = {
       title: document.getElementById('title').value,
@@ -16,22 +21,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      const res = await fetch(BASE + '/products/', {
+      const res = await fetch(`${BASE}/products/`, {
         method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        headers: { 
+            'Authorization': 'Bearer ' + token, 
+            'Content-Type': 'application/json' 
+        },
         body: JSON.stringify(payload)
       })
+      
       const data = await res.json()
       const msg = document.getElementById('addMsg')
+      
       if (res.ok) {
-        msg.innerText = 'Created'
+        msg.innerText = 'Product Created Successfully!'
         msg.className = 'text-success'
-        setTimeout(() => window.location.href = 'products.html', 800)
+        setTimeout(() => {
+            window.location.href = '/products'
+        }, 800)
       } else {
-        msg.innerText = data.message || JSON.stringify(data)
+        msg.innerText = data.error || data.message || 'Permission Denied'
         msg.className = 'text-danger'
       }
     } catch (err) {
+      console.error("Submission error:", err)
       const msg = document.getElementById('addMsg')
       msg.innerText = 'Network error'
       msg.className = 'text-danger'

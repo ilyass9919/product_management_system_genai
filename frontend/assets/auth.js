@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const msg = document.getElementById('loginMsg')
         if (res.ok && data.token) {
           localStorage.setItem('token', data.token)
-          window.location.href = 'products.html'
+          // Fix: Redirect to Flask route, not the HTML file
+          window.location.href = '/products' 
         } else {
           msg.innerText = data.message || JSON.stringify(data)
           msg.className = 'text-danger'
@@ -52,8 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await res.json()
         const msg = document.getElementById('registerMsg')
         if (res.ok) {
-          msg.innerText = 'Account created — please login'
+          msg.innerText = 'Account created — redirecting to login...'
           msg.className = 'text-success'
+          // Added: Auto-redirect to login after 2 seconds
+          setTimeout(() => {
+            window.location.href = '/login'
+          }, 2000)
         } else {
           msg.innerText = data.message || JSON.stringify(data)
           msg.className = 'text-danger'

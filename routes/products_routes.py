@@ -1,4 +1,3 @@
-# routes/products_routes.py
 from flask import Blueprint
 from controllers.product_controllers import (
     get_all_products,

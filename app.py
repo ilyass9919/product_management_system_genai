@@ -10,7 +10,8 @@ from flask_cors import CORS
 
 load_dotenv()
 
-app = Flask(__name__)
+
+app = Flask(__name__, template_folder='frontend', static_folder='frontend/assets')
 CORS(app)
 
 # Connect to MongoDB before running app
@@ -30,4 +31,3 @@ if __name__ == "__main__":
     debug_mode = os.getenv("FLASK_DEBUG", "True") == "True"
     print(f"Starting Flask app on port {port}")
     app.run(host="0.0.0.0", port=port, debug=debug_mode)
-
