@@ -11,7 +11,10 @@ from flask_cors import CORS
 load_dotenv()
 
 
-app = Flask(__name__, template_folder='frontend', static_folder='frontend/assets')
+app = Flask(__name__, 
+            static_folder='frontend/assets', 
+            static_url_path='/assets',
+            template_folder='frontend')
 CORS(app)
 
 # Connect to MongoDB before running app

@@ -1,6 +1,5 @@
-const BASE = (window.BASE_URL = window.BASE_URL || 'http://localhost:8080')
+const BASE = (window.BASE_URL = '')  // relative URLs — works on any host/IP
 
-// LOGIN & REGISTER handlers
 document.addEventListener('DOMContentLoaded', () => {
   // Login
   const loginForm = document.getElementById('loginForm')
@@ -19,16 +18,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const msg = document.getElementById('loginMsg')
         if (res.ok && data.token) {
           localStorage.setItem('token', data.token)
-          // Fix: Redirect to Flask route, not the HTML file
-          window.location.href = '/products' 
+          window.location.href = '/products'
         } else {
           msg.innerText = data.message || JSON.stringify(data)
           msg.className = 'text-danger'
+          if (document.getElementById('loginLabel')) {
+            document.getElementById('loginLabel').style.display = ''
+            document.getElementById('loginSpinner').style.display = 'none'
+          }
         }
       } catch (err) {
         const msg = document.getElementById('loginMsg')
         msg.innerText = 'Network error'
         msg.className = 'text-danger'
+        if (document.getElementById('loginLabel')) {
+          document.getElementById('loginLabel').style.display = ''
+          document.getElementById('loginSpinner').style.display = 'none'
+        }
       }
     })
   }
@@ -53,20 +59,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await res.json()
         const msg = document.getElementById('registerMsg')
         if (res.ok) {
-          msg.innerText = 'Account created — redirecting to login...'
+          msg.innerText = '✓ Account created — redirecting to login…'
           msg.className = 'text-success'
-          // Added: Auto-redirect to login after 2 seconds
-          setTimeout(() => {
-            window.location.href = '/login'
-          }, 2000)
+          setTimeout(() => { window.location.href = '/login' }, 2000)
         } else {
           msg.innerText = data.message || JSON.stringify(data)
           msg.className = 'text-danger'
+          if (document.getElementById('regLabel')) {
+            document.getElementById('regLabel').style.display = ''
+            document.getElementById('regSpinner').style.display = 'none'
+          }
         }
       } catch (err) {
         const msg = document.getElementById('registerMsg')
         msg.innerText = 'Network error'
         msg.className = 'text-danger'
+        if (document.getElementById('regLabel')) {
+          document.getElementById('regLabel').style.display = ''
+          document.getElementById('regSpinner').style.display = 'none'
+        }
       }
     })
   }
